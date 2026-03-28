@@ -1,0 +1,1835 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Auto Futura — kompleksowy serwis samochodowy we Wrocławiu. Blacharstwo, lakiernictwo, mechanika, LPG. Ponad 25 lat doświadczenia.">
+  <title>Auto Futura — Serwis Samochodowy Wrocław</title>
+
+  <!-- favicon: do uzupełnienia przez klienta -->
+  <link rel="icon" href="">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Work+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+
+  <style>
+    /*
+     * ═══════════════════════════════════════════════════
+     * ART DIRECTION: Industrialny minimalizm
+     * Typografia: Bebas Neue (display) + Work Sans (body)
+     * Paleta: czerwono-czarno-beżowa (Futura Red #c8121a)
+     * ═══════════════════════════════════════════════════
+     */
+
+    /* ── Reset ── */
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    /* ── CSS Custom Properties ── */
+    :root {
+      /* Fonts */
+      --font-display: 'Bebas Neue', Impact, sans-serif;
+      --font-body: 'Work Sans', system-ui, sans-serif;
+
+      /* Font sizes */
+      --text-xs: 0.75rem;
+      --text-sm: 0.875rem;
+      --text-base: 1rem;
+      --text-lg: 1.25rem;
+      --text-xl: 1.5rem;
+      --text-2xl: 2rem;
+      --text-3xl: 2.5rem;
+      --text-4xl: 3.5rem;
+      --text-hero: clamp(3rem, 8vw, 6rem);
+
+      /* Spacing */
+      --space-xs: 0.5rem;
+      --space-sm: 1rem;
+      --space-md: 1.5rem;
+      --space-lg: 2.5rem;
+      --space-xl: 4rem;
+      --space-2xl: 6rem;
+      --space-3xl: 8rem;
+
+      /* Radius */
+      --radius-sm: 4px;
+      --radius-md: 8px;
+      --radius-lg: 12px;
+
+      /* Transitions */
+      --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+      --duration-fast: 0.2s;
+      --duration-normal: 0.35s;
+      --duration-slow: 0.5s;
+
+      /* Layout */
+      --container-max: 1200px;
+      --header-height: 72px;
+    }
+
+    /* ── Light Mode (default) ── */
+    :root,
+    [data-theme="light"] {
+      --color-bg: #f4f3f0;
+      --color-surface: #eceae6;
+      --color-surface-raised: #ffffff;
+      --color-text: #141414;
+      --color-text-muted: #555555;
+      --color-primary: #c8121a;
+      --color-primary-hover: #a80f15;
+      --color-border: oklch(0.5 0 0 / 0.12);
+      --color-border-subtle: oklch(0.5 0 0 / 0.06);
+      --color-header-bg: rgba(244, 243, 240, 0.85);
+      --color-overlay: rgba(20, 20, 20, 0.55);
+      --shadow-sm: 0 1px 3px rgba(0,0,0,0.06);
+      --shadow-md: 0 4px 16px rgba(0,0,0,0.08);
+      --shadow-lg: 0 8px 32px rgba(0,0,0,0.10);
+    }
+
+    /* ── Dark Mode ── */
+    [data-theme="dark"] {
+      --color-bg: #141414;
+      --color-surface: #1e1e1e;
+      --color-surface-raised: #262626;
+      --color-text: #f4f3f0;
+      --color-text-muted: #888888;
+      --color-primary: #c8121a;
+      --color-primary-hover: #e0161e;
+      --color-border: oklch(0.6 0 0 / 0.15);
+      --color-border-subtle: oklch(0.6 0 0 / 0.08);
+      --color-header-bg: rgba(20, 20, 20, 0.85);
+      --color-overlay: rgba(20, 20, 20, 0.65);
+      --shadow-sm: 0 1px 3px rgba(0,0,0,0.2);
+      --shadow-md: 0 4px 16px rgba(0,0,0,0.3);
+      --shadow-lg: 0 8px 32px rgba(0,0,0,0.35);
+    }
+
+    /* ── Base ── */
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: var(--header-height);
+    }
+
+    body {
+      font-family: var(--font-body);
+      font-weight: 400;
+      font-size: var(--text-base);
+      line-height: 1.6;
+      color: var(--color-text);
+      background-color: var(--color-bg);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      overflow-x: hidden;
+    }
+
+    img {
+      max-width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button {
+      font-family: inherit;
+      cursor: pointer;
+      border: none;
+      background: none;
+    }
+
+    /* ── Focus Visible ── */
+    :focus-visible {
+      outline: 2px solid var(--color-primary);
+      outline-offset: 2px;
+    }
+
+    /* ── Container ── */
+    .container {
+      width: 100%;
+      max-width: var(--container-max);
+      margin: 0 auto;
+      padding-inline: var(--space-md);
+    }
+
+    /* ── Section ── */
+    .section {
+      padding-block: var(--space-2xl);
+    }
+
+    .section-label {
+      font-family: var(--font-display);
+      font-size: var(--text-3xl);
+      letter-spacing: 0.04em;
+      line-height: 1.1;
+      margin-bottom: var(--space-lg);
+    }
+
+    .section-subtitle {
+      color: var(--color-text-muted);
+      font-size: var(--text-base);
+      font-weight: 300;
+      max-width: 600px;
+      margin-bottom: var(--space-xl);
+    }
+
+    /* ── Buttons ── */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-xs);
+      padding: 0.875rem 1.75rem;
+      font-family: var(--font-body);
+      font-size: var(--text-sm);
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      border-radius: var(--radius-sm);
+      transition: all var(--duration-fast) ease;
+      min-height: 44px;
+      min-width: 44px;
+    }
+
+    .btn-primary {
+      background-color: var(--color-primary);
+      color: #ffffff;
+    }
+
+    .btn-primary:hover {
+      background-color: var(--color-primary-hover);
+    }
+
+    .btn-ghost {
+      background-color: transparent;
+      color: var(--color-text);
+      border: 1px solid var(--color-border);
+    }
+
+    .btn-ghost:hover {
+      border-color: var(--color-text);
+    }
+
+    /* ══════════════════════════════════
+       HEADER
+    ══════════════════════════════════ */
+    .header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      height: var(--header-height);
+      display: flex;
+      align-items: center;
+      background-color: var(--color-header-bg);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      transition: box-shadow var(--duration-normal) ease, backdrop-filter var(--duration-normal) ease;
+    }
+
+    .header.scrolled {
+      box-shadow: 0 1px 12px rgba(0,0,0,0.08);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+    }
+
+    .header .container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    /* Logo placeholder */
+    .logo-placeholder {
+      display: flex;
+      align-items: center;
+    }
+
+    .logo-text {
+      font-family: var(--font-display);
+      font-size: var(--text-xl);
+      letter-spacing: 0.05em;
+      color: var(--color-text);
+      line-height: 1;
+    }
+
+    .logo-accent {
+      color: var(--color-primary);
+    }
+
+    /* Nav */
+    .nav-desktop {
+      display: none;
+      align-items: center;
+      gap: var(--space-lg);
+    }
+
+    .nav-link {
+      font-size: var(--text-sm);
+      font-weight: 500;
+      color: var(--color-text-muted);
+      transition: color var(--duration-fast) ease;
+      position: relative;
+    }
+
+    .nav-link:hover,
+    .nav-link:focus-visible {
+      color: var(--color-text);
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+    }
+
+    .btn-cta-header {
+      display: none;
+      padding: 0.625rem 1.25rem;
+      font-size: var(--text-sm);
+      font-weight: 600;
+      background-color: var(--color-primary);
+      color: #ffffff;
+      border-radius: var(--radius-sm);
+      transition: background-color var(--duration-fast) ease;
+    }
+
+    .btn-cta-header:hover {
+      background-color: var(--color-primary-hover);
+    }
+
+    /* Theme toggle */
+    .theme-toggle {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 44px;
+      height: 44px;
+      border-radius: var(--radius-sm);
+      color: var(--color-text-muted);
+      transition: color var(--duration-fast) ease;
+    }
+
+    .theme-toggle:hover {
+      color: var(--color-text);
+    }
+
+    .theme-toggle .icon-sun,
+    .theme-toggle .icon-moon {
+      width: 20px;
+      height: 20px;
+    }
+
+    [data-theme="light"] .theme-toggle .icon-moon { display: none; }
+    [data-theme="dark"] .theme-toggle .icon-sun { display: none; }
+
+    /* Hamburger */
+    .hamburger {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      width: 44px;
+      height: 44px;
+      gap: 5px;
+    }
+
+    .hamburger span {
+      display: block;
+      width: 22px;
+      height: 2px;
+      background-color: var(--color-text);
+      transition: transform var(--duration-normal) var(--ease-out), opacity var(--duration-fast) ease;
+      border-radius: 1px;
+    }
+
+    .hamburger.active span:nth-child(1) {
+      transform: translateY(7px) rotate(45deg);
+    }
+
+    .hamburger.active span:nth-child(2) {
+      opacity: 0;
+    }
+
+    .hamburger.active span:nth-child(3) {
+      transform: translateY(-7px) rotate(-45deg);
+    }
+
+    /* Mobile drawer */
+    .mobile-drawer {
+      position: fixed;
+      top: var(--header-height);
+      right: 0;
+      bottom: 0;
+      width: 100%;
+      max-width: 320px;
+      background-color: var(--color-surface);
+      transform: translateX(100%);
+      transition: transform var(--duration-normal) var(--ease-out);
+      z-index: 99;
+      padding: var(--space-lg);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-md);
+    }
+
+    .mobile-drawer.open {
+      transform: translateX(0);
+    }
+
+    .mobile-drawer .nav-link {
+      display: block;
+      font-size: var(--text-lg);
+      padding: var(--space-sm) 0;
+      border-bottom: 1px solid var(--color-border-subtle);
+    }
+
+    .mobile-drawer .btn-primary {
+      margin-top: var(--space-sm);
+      text-align: center;
+    }
+
+    .drawer-overlay {
+      position: fixed;
+      inset: 0;
+      top: var(--header-height);
+      background: rgba(0,0,0,0.4);
+      z-index: 98;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity var(--duration-normal) ease;
+    }
+
+    .drawer-overlay.visible {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    @media (min-width: 768px) {
+      .nav-desktop {
+        display: flex;
+      }
+      .hamburger {
+        display: none;
+      }
+      .btn-cta-header {
+        display: inline-flex;
+      }
+    }
+
+    /* ══════════════════════════════════
+       HERO
+    ══════════════════════════════════ */
+    .hero {
+      position: relative;
+      min-height: 92vh;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+      padding-top: var(--header-height);
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+    }
+
+    /* Placeholder background — zastąp docelowym zdjęciem warsztatu */
+    .hero-bg-image {
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 40%, #1e1e1e 100%);
+      /* ↑ Zastąp powyższe tło docelowym zdjęciem:
+         background: url('img/hero-workshop.jpg') center/cover no-repeat; */
+    }
+
+    .hero-bg-overlay {
+      position: absolute;
+      inset: 0;
+      background-color: var(--color-overlay);
+    }
+
+    /* Subtle grid pattern overlay for visual texture */
+    .hero-bg-pattern {
+      position: absolute;
+      inset: 0;
+      opacity: 0.03;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px);
+      background-size: 60px 60px;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      padding-block: var(--space-3xl) var(--space-2xl);
+    }
+
+    .hero-title {
+      font-family: var(--font-display);
+      font-size: var(--text-hero);
+      line-height: 0.95;
+      letter-spacing: 0.03em;
+      color: #ffffff;
+      margin-bottom: var(--space-md);
+    }
+
+    .hero-subtitle {
+      font-size: var(--text-base);
+      font-weight: 300;
+      color: rgba(255,255,255,0.7);
+      max-width: 520px;
+      line-height: 1.7;
+      margin-bottom: var(--space-lg);
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-sm);
+    }
+
+    .hero .btn-ghost {
+      color: rgba(255,255,255,0.85);
+      border-color: rgba(255,255,255,0.25);
+    }
+
+    .hero .btn-ghost:hover {
+      border-color: rgba(255,255,255,0.6);
+      color: #ffffff;
+    }
+
+    .hero-badge {
+      position: absolute;
+      bottom: var(--space-lg);
+      right: var(--space-md);
+      z-index: 1;
+      font-size: var(--text-xs);
+      font-weight: 500;
+      color: rgba(255,255,255,0.5);
+      letter-spacing: 0.04em;
+      text-align: right;
+    }
+
+    @media (min-width: 768px) {
+      .hero-badge {
+        right: var(--space-xl);
+        bottom: var(--space-xl);
+      }
+    }
+
+    /* ══════════════════════════════════
+       SERVICES
+    ══════════════════════════════════ */
+    .services {
+      background-color: var(--color-bg);
+    }
+
+    .services-grid {
+      display: grid;
+      gap: var(--space-sm);
+    }
+
+    /* Featured card (Blacharstwo) */
+    .service-card-featured {
+      position: relative;
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      min-height: 280px;
+      display: flex;
+      align-items: flex-end;
+      padding: var(--space-lg);
+      /* Placeholder — zastąp zdjęciem blacharni */
+      background: linear-gradient(135deg, #2a2a2a, #1a1a1a);
+      /* background: url('img/service-blacharstwo.jpg') center/cover no-repeat; */
+      transition: transform var(--duration-normal) var(--ease-out), box-shadow var(--duration-normal) ease;
+    }
+
+    .service-card-featured::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(20,20,20,0.85) 0%, rgba(20,20,20,0.2) 100%);
+      z-index: 1;
+    }
+
+    .service-card-featured:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .service-card-featured .service-card-inner {
+      position: relative;
+      z-index: 2;
+    }
+
+    .service-card-featured .service-icon {
+      color: var(--color-primary);
+      margin-bottom: var(--space-sm);
+    }
+
+    .service-card-featured .service-name {
+      font-family: var(--font-display);
+      font-size: var(--text-2xl);
+      letter-spacing: 0.03em;
+      color: #ffffff;
+      margin-bottom: var(--space-xs);
+    }
+
+    .service-card-featured .service-desc {
+      color: rgba(255,255,255,0.7);
+      font-size: var(--text-sm);
+      font-weight: 300;
+      max-width: 480px;
+    }
+
+    /* Regular service cards */
+    .services-regular {
+      display: grid;
+      gap: var(--space-sm);
+    }
+
+    .service-card {
+      background-color: var(--color-surface);
+      border: 1px solid var(--color-border-subtle);
+      border-radius: var(--radius-md);
+      padding: var(--space-md);
+      transition: transform var(--duration-normal) var(--ease-out), box-shadow var(--duration-normal) ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .service-card::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background-color: var(--color-primary);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform var(--duration-normal) var(--ease-out);
+    }
+
+    .service-card:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .service-card:hover::after {
+      transform: scaleX(1);
+    }
+
+    .service-icon {
+      color: var(--color-primary);
+      margin-bottom: var(--space-sm);
+    }
+
+    .service-icon i {
+      width: 24px;
+      height: 24px;
+    }
+
+    .service-name {
+      font-family: var(--font-display);
+      font-size: var(--text-lg);
+      letter-spacing: 0.03em;
+      margin-bottom: var(--space-xs);
+    }
+
+    .service-desc {
+      font-size: var(--text-sm);
+      color: var(--color-text-muted);
+      font-weight: 300;
+      line-height: 1.6;
+    }
+
+    @media (min-width: 640px) {
+      .services-regular {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (min-width: 960px) {
+      .services-grid {
+        grid-template-columns: 2fr 1fr;
+      }
+      .service-card-featured {
+        grid-column: 1 / 2;
+        grid-row: 1 / 3;
+        min-height: 400px;
+      }
+      .services-regular {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    /* ══════════════════════════════════
+       BLACHARNIA & LAKIERNIA
+    ══════════════════════════════════ */
+    .bodyshop {
+      background-color: var(--color-surface);
+    }
+
+    .bodyshop-grid {
+      display: grid;
+      gap: var(--space-xl);
+      align-items: center;
+    }
+
+    .bodyshop-text {
+      text-align: left;
+    }
+
+    .bodyshop-tag {
+      display: inline-block;
+      font-size: var(--text-xs);
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--color-primary);
+      margin-bottom: var(--space-sm);
+    }
+
+    .bodyshop-title {
+      font-family: var(--font-display);
+      font-size: var(--text-3xl);
+      letter-spacing: 0.03em;
+      line-height: 1.05;
+      margin-bottom: var(--space-md);
+    }
+
+    .bodyshop-desc {
+      color: var(--color-text-muted);
+      font-weight: 300;
+      line-height: 1.7;
+      margin-bottom: var(--space-lg);
+    }
+
+    .bodyshop-features {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-sm);
+      margin-bottom: var(--space-lg);
+    }
+
+    .bodyshop-features li {
+      display: flex;
+      align-items: flex-start;
+      gap: var(--space-sm);
+      font-size: var(--text-sm);
+    }
+
+    .bodyshop-features li i {
+      flex-shrink: 0;
+      color: var(--color-primary);
+      margin-top: 2px;
+    }
+
+    .bodyshop-highlight {
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+      padding: var(--space-md);
+      background-color: var(--color-surface-raised);
+      border: 1px solid var(--color-border-subtle);
+      border-radius: var(--radius-md);
+      font-size: var(--text-sm);
+      font-weight: 500;
+    }
+
+    .bodyshop-highlight i {
+      color: var(--color-primary);
+      flex-shrink: 0;
+    }
+
+    .bodyshop-image {
+      position: relative;
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      aspect-ratio: 4 / 3;
+      /* Placeholder — zastąp docelowym zdjęciem lakierni */
+      background: linear-gradient(135deg, #2a2a2a, #1e1e1e);
+      /* background: url('img/bodyshop.jpg') center/cover no-repeat; */
+    }
+
+    .bodyshop-image-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(20,20,20,0.3), transparent);
+    }
+
+    /* Decorative detail line */
+    .bodyshop-image::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 60px;
+      height: 3px;
+      background-color: var(--color-primary);
+    }
+
+    @media (min-width: 768px) {
+      .bodyshop-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    /* ══════════════════════════════════
+       WHY US (O nas)
+    ══════════════════════════════════ */
+    .why-us {
+      background-color: var(--color-bg);
+    }
+
+    .why-us-list {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-lg);
+      max-width: 720px;
+    }
+
+    .why-us-item {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: var(--space-md);
+      align-items: start;
+    }
+
+    .why-us-number {
+      font-family: var(--font-display);
+      font-size: var(--text-2xl);
+      color: var(--color-primary);
+      line-height: 1;
+      min-width: 48px;
+    }
+
+    .why-us-item-title {
+      font-weight: 600;
+      font-size: var(--text-base);
+      margin-bottom: 4px;
+    }
+
+    .why-us-item-desc {
+      font-size: var(--text-sm);
+      color: var(--color-text-muted);
+      font-weight: 300;
+      line-height: 1.6;
+    }
+
+    /* Divider line between items */
+    .why-us-item + .why-us-item {
+      padding-top: var(--space-lg);
+      border-top: 1px solid var(--color-border-subtle);
+    }
+
+    /* Stats row */
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--space-md);
+      margin-top: var(--space-xl);
+      max-width: 720px;
+    }
+
+    .stat-item {
+      text-align: left;
+    }
+
+    .stat-number {
+      font-family: var(--font-display);
+      font-size: var(--text-3xl);
+      line-height: 1;
+      color: var(--color-text);
+      margin-bottom: 4px;
+    }
+
+    .stat-label {
+      font-size: var(--text-sm);
+      color: var(--color-text-muted);
+      font-weight: 300;
+    }
+
+    @media (min-width: 640px) {
+      .stats-row {
+        grid-template-columns: repeat(4, 1fr);
+      }
+    }
+
+    /* ══════════════════════════════════
+       TRUST / SOCIAL PROOF
+    ══════════════════════════════════ */
+    .trust {
+      background-color: var(--color-surface);
+    }
+
+    .trust-label {
+      font-size: var(--text-sm);
+      color: var(--color-text-muted);
+      font-weight: 400;
+      margin-bottom: var(--space-md);
+      text-align: left;
+    }
+
+    .insurers-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-md);
+      align-items: center;
+      margin-bottom: var(--space-xl);
+    }
+
+    .insurer-badge {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.75rem 1.25rem;
+      background-color: var(--color-surface-raised);
+      border: 1px solid var(--color-border-subtle);
+      border-radius: var(--radius-sm);
+      font-size: var(--text-sm);
+      font-weight: 600;
+      color: var(--color-text-muted);
+      letter-spacing: 0.04em;
+      white-space: nowrap;
+    }
+
+    .testimonials {
+      display: grid;
+      gap: var(--space-md);
+    }
+
+    .testimonial {
+      padding: var(--space-md);
+      background-color: var(--color-surface-raised);
+      border: 1px solid var(--color-border-subtle);
+      border-radius: var(--radius-md);
+      text-align: left;
+    }
+
+    .testimonial-quote {
+      font-size: var(--text-base);
+      font-weight: 300;
+      font-style: italic;
+      line-height: 1.7;
+      margin-bottom: var(--space-sm);
+      color: var(--color-text);
+    }
+
+    .testimonial-author {
+      font-size: var(--text-sm);
+      color: var(--color-text-muted);
+      font-weight: 500;
+    }
+
+    @media (min-width: 768px) {
+      .testimonials {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    /* ══════════════════════════════════
+       CONTACT
+    ══════════════════════════════════ */
+    .contact {
+      background-color: var(--color-bg);
+    }
+
+    .contact-grid {
+      display: grid;
+      gap: var(--space-xl);
+    }
+
+    .contact-form-wrapper {
+      text-align: left;
+    }
+
+    .form-group {
+      margin-bottom: var(--space-md);
+    }
+
+    .form-label {
+      display: block;
+      font-size: var(--text-sm);
+      font-weight: 500;
+      margin-bottom: 6px;
+    }
+
+    .form-input,
+    .form-textarea {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      font-family: var(--font-body);
+      font-size: var(--text-base);
+      font-weight: 400;
+      color: var(--color-text);
+      background-color: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-sm);
+      transition: border-color var(--duration-fast) ease;
+    }
+
+    .form-input:focus,
+    .form-textarea:focus {
+      outline: none;
+      border-color: var(--color-primary);
+    }
+
+    .form-textarea {
+      resize: vertical;
+      min-height: 100px;
+    }
+
+    .form-success {
+      display: none;
+      padding: var(--space-md);
+      background-color: var(--color-surface);
+      border: 1px solid var(--color-border-subtle);
+      border-radius: var(--radius-md);
+      text-align: center;
+    }
+
+    .form-success.visible {
+      display: block;
+      animation: fadeIn var(--duration-normal) var(--ease-out);
+    }
+
+    .form-success i {
+      color: #22c55e;
+      margin-bottom: var(--space-xs);
+    }
+
+    /* Contact info */
+    .contact-info {
+      text-align: left;
+    }
+
+    .contact-info-list {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-md);
+      margin-bottom: var(--space-lg);
+    }
+
+    .contact-info-item {
+      display: flex;
+      align-items: flex-start;
+      gap: var(--space-sm);
+    }
+
+    .contact-info-item i {
+      color: var(--color-primary);
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .contact-info-item a:hover {
+      color: var(--color-primary);
+    }
+
+    .contact-info-label {
+      font-weight: 600;
+      font-size: var(--text-sm);
+      display: block;
+    }
+
+    .contact-info-value {
+      font-size: var(--text-sm);
+      color: var(--color-text-muted);
+      font-weight: 300;
+    }
+
+    .map-container {
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      border: 1px solid var(--color-border-subtle);
+      aspect-ratio: 16 / 10;
+    }
+
+    .map-container iframe {
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+
+    @media (min-width: 768px) {
+      .contact-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    /* ══════════════════════════════════
+       FOOTER
+    ══════════════════════════════════ */
+    .footer {
+      background-color: #141414;
+      color: rgba(244, 243, 240, 0.7);
+      padding-block: var(--space-xl) var(--space-lg);
+    }
+
+    .footer-grid {
+      display: grid;
+      gap: var(--space-lg);
+      margin-bottom: var(--space-xl);
+    }
+
+    .footer .logo-text {
+      font-size: var(--text-lg);
+      color: #f4f3f0;
+    }
+
+    .footer-tagline {
+      font-size: var(--text-sm);
+      color: rgba(244, 243, 240, 0.4);
+      font-weight: 300;
+      margin-top: var(--space-xs);
+    }
+
+    .footer-heading {
+      font-family: var(--font-display);
+      font-size: var(--text-lg);
+      letter-spacing: 0.05em;
+      color: #f4f3f0;
+      margin-bottom: var(--space-sm);
+    }
+
+    .footer-links {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .footer-links a {
+      font-size: var(--text-sm);
+      color: rgba(244, 243, 240, 0.5);
+      font-weight: 300;
+      transition: color var(--duration-fast) ease;
+    }
+
+    .footer-links a:hover {
+      color: #f4f3f0;
+    }
+
+    .footer-bottom {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: var(--space-sm);
+      padding-top: var(--space-lg);
+      border-top: 1px solid rgba(255,255,255,0.08);
+      font-size: var(--text-xs);
+      color: rgba(244, 243, 240, 0.35);
+    }
+
+    .footer-social a {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: rgba(244, 243, 240, 0.5);
+      font-size: var(--text-sm);
+      transition: color var(--duration-fast) ease;
+    }
+
+    .footer-social a:hover {
+      color: #f4f3f0;
+    }
+
+    @media (min-width: 768px) {
+      .footer-grid {
+        grid-template-columns: 2fr 1fr 1fr 1fr;
+      }
+    }
+
+    /* ══════════════════════════════════
+       SCROLL ANIMATIONS
+    ══════════════════════════════════ */
+    .reveal {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+      transition: opacity var(--duration-slow) var(--ease-out),
+                  transform var(--duration-slow) var(--ease-out);
+    }
+
+    /* Staggered children */
+    .stagger-children .reveal:nth-child(1) { transition-delay: 0ms; }
+    .stagger-children .reveal:nth-child(2) { transition-delay: 60ms; }
+    .stagger-children .reveal:nth-child(3) { transition-delay: 120ms; }
+    .stagger-children .reveal:nth-child(4) { transition-delay: 180ms; }
+    .stagger-children .reveal:nth-child(5) { transition-delay: 240ms; }
+    .stagger-children .reveal:nth-child(6) { transition-delay: 300ms; }
+    .stagger-children .reveal:nth-child(7) { transition-delay: 360ms; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes countUp {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    /* Reduced motion */
+    @media (prefers-reduced-motion: reduce) {
+      .reveal {
+        opacity: 1;
+        transform: none;
+      }
+      .reveal.visible {
+        transition: none;
+      }
+      html {
+        scroll-behavior: auto;
+      }
+      .service-card,
+      .service-card-featured {
+        transition: none;
+      }
+    }
+
+    /* ══════════════════════════════════
+       UTILITIES
+    ══════════════════════════════════ */
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0,0,0,0);
+      white-space: nowrap;
+      border-width: 0;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- ═══ HEADER ═══ -->
+  <header class="header" role="banner">
+    <div class="container">
+      <!-- Logo placeholder — do zastąpienia docelowym plikiem graficznym klienta -->
+      <a href="#" class="logo-placeholder" aria-label="Auto Futura — strona główna">
+        <span class="logo-text">AUTO<span class="logo-accent">FUTURA</span></span>
+      </a>
+
+      <nav class="nav-desktop" aria-label="Nawigacja główna">
+        <a href="#uslugi" class="nav-link">Usługi</a>
+        <a href="#blacharnia" class="nav-link">Blacharnia & Lakiernia</a>
+        <a href="#o-nas" class="nav-link">O nas</a>
+        <a href="#kontakt" class="nav-link">Kontakt</a>
+      </nav>
+
+      <div class="header-actions">
+        <a href="#kontakt" class="btn-cta-header">Umów wizytę</a>
+
+        <button class="theme-toggle" aria-label="Przełącz tryb kolorystyczny">
+          <i data-lucide="sun" class="icon-sun"></i>
+          <i data-lucide="moon" class="icon-moon"></i>
+        </button>
+
+        <button class="hamburger" aria-label="Otwórz menu" aria-expanded="false">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile drawer -->
+  <div class="drawer-overlay" aria-hidden="true"></div>
+  <nav class="mobile-drawer" aria-label="Menu mobilne">
+    <a href="#uslugi" class="nav-link">Usługi</a>
+    <a href="#blacharnia" class="nav-link">Blacharnia & Lakiernia</a>
+    <a href="#o-nas" class="nav-link">O nas</a>
+    <a href="#kontakt" class="nav-link">Kontakt</a>
+    <a href="#kontakt" class="btn btn-primary">Umów wizytę</a>
+  </nav>
+
+  <main>
+    <!-- ═══ HERO ═══ -->
+    <section class="hero" id="start">
+      <div class="hero-bg">
+        <!-- Hero background — zastąp docelowym zdjęciem wnętrza warsztatu -->
+        <div class="hero-bg-image" role="img" aria-label="Wnętrze nowoczesnego warsztatu samochodowego"></div>
+        <div class="hero-bg-overlay"></div>
+        <div class="hero-bg-pattern"></div>
+      </div>
+
+      <div class="container hero-content">
+        <h1 class="hero-title">TWÓJ SAMOCHÓD<br>W DOBRYCH RĘKACH</h1>
+        <p class="hero-subtitle">Kompleksowy serwis samochodowy we Wrocławiu od ponad 25 lat. Blacharstwo, lakiernictwo, mechanika, LPG.</p>
+        <div class="hero-actions">
+          <a href="#kontakt" class="btn btn-primary">Umów wizytę</a>
+          <a href="#uslugi" class="btn btn-ghost">Nasze usługi</a>
+        </div>
+      </div>
+
+      <div class="hero-badge">Wrocław · Psie Pole · Sułowska 35</div>
+    </section>
+
+    <!-- ═══ SERVICES ═══ -->
+    <section class="section services" id="uslugi">
+      <div class="container">
+        <h2 class="section-label reveal">NASZE USŁUGI</h2>
+        <p class="section-subtitle reveal">Oferujemy pełen zakres usług serwisowych — od napraw blacharsko-lakierniczych po montaż instalacji LPG.</p>
+
+        <div class="services-grid">
+          <!-- Featured card: Blacharstwo -->
+          <div class="service-card-featured reveal" role="article">
+            <div class="service-card-inner">
+              <div class="service-icon">
+                <i data-lucide="shield" width="28" height="28"></i>
+              </div>
+              <h3 class="service-name">BLACHARSTWO</h3>
+              <p class="service-desc">Profesjonalne naprawy powypadkowe karoserii. Prostowanie, spawanie, wymiana elementów nadwozia z zachowaniem standardów producenta.</p>
+            </div>
+          </div>
+
+          <!-- Regular cards -->
+          <div class="services-regular stagger-children">
+            <div class="service-card reveal" role="article">
+              <div class="service-icon">
+                <i data-lucide="paintbrush" width="24" height="24"></i>
+              </div>
+              <h3 class="service-name">LAKIERNICTWO</h3>
+              <p class="service-desc">Lakierowanie powypadkowe i kosmetyczne w komorze lakierniczej. Precyzyjne dopasowanie koloru komputerowe.</p>
+            </div>
+
+            <div class="service-card reveal" role="article">
+              <div class="service-icon">
+                <i data-lucide="wrench" width="24" height="24"></i>
+              </div>
+              <h3 class="service-name">MECHANIKA</h3>
+              <p class="service-desc">Przeglądy okresowe, diagnostyka, naprawy silników, układów hamulcowych i zawieszenia.</p>
+            </div>
+
+            <div class="service-card reveal" role="article">
+              <div class="service-icon">
+                <i data-lucide="circle-dot" width="24" height="24"></i>
+              </div>
+              <h3 class="service-name">SERWIS OPON</h3>
+              <p class="service-desc">Wymiana, wyważanie i przechowywanie opon sezonowych. Wulkanizacja i naprawa uszkodzeń.</p>
+            </div>
+
+            <div class="service-card reveal" role="article">
+              <div class="service-icon">
+                <i data-lucide="wind" width="24" height="24"></i>
+              </div>
+              <h3 class="service-name">KLIMATYZACJA</h3>
+              <p class="service-desc">Serwis i odgrzybianie klimatyzacji samochodowej. Uzupełnianie czynnika, kontrola szczelności.</p>
+            </div>
+
+            <div class="service-card reveal" role="article">
+              <div class="service-icon">
+                <i data-lucide="fuel" width="24" height="24"></i>
+              </div>
+              <h3 class="service-name">INSTALACJE LPG</h3>
+              <p class="service-desc">Montaż, diagnostyka i przeglądy instalacji gazowych. Serwisujemy wszystkie popularne systemy LPG.</p>
+            </div>
+
+            <div class="service-card reveal" role="article">
+              <div class="service-icon">
+                <i data-lucide="file-check" width="24" height="24"></i>
+              </div>
+              <h3 class="service-name">LIKWIDACJA SZKÓD</h3>
+              <p class="service-desc">Kompleksowa obsługa ubezpieczycieli. Kosztorysy, naprawy bezgotówkowe z OC sprawcy.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ BLACHARNIA & LAKIERNIA ═══ -->
+    <section class="section bodyshop" id="blacharnia">
+      <div class="container">
+        <div class="bodyshop-grid">
+          <div class="bodyshop-text reveal">
+            <span class="bodyshop-tag">Specjalizacja</span>
+            <h2 class="bodyshop-title">BLACHARNIA<br>& LAKIERNIA</h2>
+            <p class="bodyshop-desc">Nasza blacharnia i lakiernia to serce warsztatu. Dysponujemy profesjonalną komorą lakierniczą i nowoczesnym sprzętem do napraw karoserii. Każda naprawa wykonywana jest z dbałością o najdrobniejsze detale.</p>
+
+            <ul class="bodyshop-features">
+              <li>
+                <i data-lucide="check" width="18" height="18"></i>
+                <span><strong>Naprawy bezgotówkowe z OC sprawcy</strong> — zajmujemy się całą dokumentacją i kontaktem z ubezpieczycielem</span>
+              </li>
+              <li>
+                <i data-lucide="check" width="18" height="18"></i>
+                <span><strong>Bezpłatna wycena</strong> — oględziny i kosztorys naprawy bez zobowiązań</span>
+              </li>
+              <li>
+                <i data-lucide="check" width="18" height="18"></i>
+                <span><strong>Korekta i polerowanie lakieru</strong> — przywracamy fabryczny połysk nadwozia</span>
+              </li>
+              <li>
+                <i data-lucide="check" width="18" height="18"></i>
+                <span><strong>Komputerowe dopasowanie koloru</strong> — idealne odwzorowanie oryginalnego odcienia</span>
+              </li>
+            </ul>
+
+            <div class="bodyshop-highlight">
+              <i data-lucide="badge-check" width="20" height="20"></i>
+              <span>Współpracujemy ze wszystkimi towarzystwami ubezpieczeniowymi</span>
+            </div>
+          </div>
+
+          <div class="bodyshop-image reveal" role="img" aria-label="Samochód po profesjonalnej naprawie blacharsko-lakierniczej">
+            <!-- Placeholder — zastąp docelowym zdjęciem:
+                 <img src="img/bodyshop.jpg" alt="Samochód po naprawie blacharsko-lakierniczej" loading="lazy" width="600" height="450"> -->
+            <div class="bodyshop-image-overlay"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ WHY US ═══ -->
+    <section class="section why-us" id="o-nas">
+      <div class="container">
+        <h2 class="section-label reveal">DLACZEGO MY</h2>
+        <p class="section-subtitle reveal">Auto Futura to warsztat z tradycją i doświadczeniem. Stawiamy na rzetelność, terminowość i jakość wykonania.</p>
+
+        <div class="why-us-list stagger-children">
+          <div class="why-us-item reveal">
+            <div class="why-us-number">01</div>
+            <div>
+              <div class="why-us-item-title">Ponad 25 lat doświadczenia</div>
+              <div class="why-us-item-desc">Działamy na wrocławskim rynku od lat 90. Naprawiliśmy tysiące pojazdów — od aut miejskich po samochody dostawcze. Znamy się na swojej robocie.</div>
+            </div>
+          </div>
+
+          <div class="why-us-item reveal">
+            <div class="why-us-number">02</div>
+            <div>
+              <div class="why-us-item-title">Wykwalifikowana kadra</div>
+              <div class="why-us-item-desc">Nasi mechanicy, blacharze i lakiernicy to specjaliści z wieloletnim stażem. Regularnie szkolimy zespół, by nadążać za technologiami motoryzacyjnymi.</div>
+            </div>
+          </div>
+
+          <div class="why-us-item reveal">
+            <div class="why-us-number">03</div>
+            <div>
+              <div class="why-us-item-title">Własna komora lakiernicza</div>
+              <div class="why-us-item-desc">Dysponujemy profesjonalną komorą lakierniczą, co gwarantuje najwyższą jakość powłoki lakierniczej — bez kurzu, zacieków i niedoskonałości.</div>
+            </div>
+          </div>
+
+          <div class="why-us-item reveal">
+            <div class="why-us-number">04</div>
+            <div>
+              <div class="why-us-item-title">Serwis LPG — rzadkość w regionie</div>
+              <div class="why-us-item-desc">Montujemy, serwisujemy i diagnozujemy instalacje gazowe. To usługa, którą oferuje niewiele warsztatów — u nas znajdziesz ją pod jednym dachem z mechaniką i blacharnią.</div>
+            </div>
+          </div>
+
+          <div class="why-us-item reveal">
+            <div class="why-us-number">05</div>
+            <div>
+              <div class="why-us-item-title">Likwidacja szkód bez stresu</div>
+              <div class="why-us-item-desc">Przejmujemy kontakt z ubezpieczycielem, przygotowujemy kosztorysy i przeprowadzamy naprawę bezgotówkową. Ty odstawiasz auto — my zajmujemy się resztą.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="stats-row reveal">
+          <div class="stat-item">
+            <div class="stat-number" data-count="25">0</div>
+            <div class="stat-label">lat doświadczenia</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number" data-count="3000" data-suffix="+">0</div>
+            <div class="stat-label">naprawionych aut</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number" data-count="7">0</div>
+            <div class="stat-label">zakresów usług</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number" data-count="10" data-suffix="+">0</div>
+            <div class="stat-label">ubezpieczycieli</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ TRUST / SOCIAL PROOF ═══ -->
+    <section class="section trust" id="zaufanie">
+      <div class="container">
+        <p class="trust-label reveal">Współpracujemy z ubezpieczycielami</p>
+        <div class="insurers-grid reveal">
+          <div class="insurer-badge">PZU</div>
+          <div class="insurer-badge">WARTA</div>
+          <div class="insurer-badge">ALLIANZ</div>
+          <div class="insurer-badge">GENERALI</div>
+          <div class="insurer-badge">AXA</div>
+          <div class="insurer-badge">ERGO HESTIA</div>
+          <div class="insurer-badge">UNIQA</div>
+          <div class="insurer-badge">COMPENSA</div>
+        </div>
+
+        <div class="testimonials stagger-children">
+          <div class="testimonial reveal">
+            <p class="testimonial-quote">„Oddałem auto po stłuczce i odebrałem je jak nowe. Lakier dopasowany idealnie, żadnych śladów naprawy. Polecam każdemu."</p>
+            <p class="testimonial-author">Marek W. — Wrocław</p>
+          </div>
+          <div class="testimonial reveal">
+            <p class="testimonial-quote">„Cały proces likwidacji szkody wzięli na siebie. Nie musiałem dzwonić do ubezpieczyciela ani razu. Profesjonalna obsługa."</p>
+            <p class="testimonial-author">Anna K. — Psie Pole</p>
+          </div>
+          <div class="testimonial reveal">
+            <p class="testimonial-quote">„Korzystam z Auto Futury od lat — mechanika, opony, klimatyzacja. Rzetelni, terminowi i zawsze uczciwa wycena."</p>
+            <p class="testimonial-author">Tomasz B. — Wrocław</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ CONTACT ═══ -->
+    <section class="section contact" id="kontakt">
+      <div class="container">
+        <h2 class="section-label reveal">KONTAKT</h2>
+        <p class="section-subtitle reveal">Umów wizytę telefonicznie lub zostaw wiadomość — odezwiemy się najszybciej jak to możliwe.</p>
+
+        <div class="contact-grid">
+          <!-- Form -->
+          <div class="contact-form-wrapper reveal">
+            <form id="contactForm" novalidate>
+              <div class="form-group">
+                <label class="form-label" for="name">Imię</label>
+                <input class="form-input" type="text" id="name" name="name" placeholder="Jan Kowalski" required autocomplete="name">
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="phone">Telefon</label>
+                <input class="form-input" type="tel" id="phone" name="phone" placeholder="600 000 000" required autocomplete="tel">
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="message">Opis problemu</label>
+                <textarea class="form-textarea" id="message" name="message" placeholder="Opisz krótko, co się stało z samochodem…" rows="4"></textarea>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="date">Preferowany termin</label>
+                <input class="form-input" type="date" id="date" name="date">
+              </div>
+              <button type="submit" class="btn btn-primary" style="width:100%">Wyślij wiadomość</button>
+            </form>
+
+            <div class="form-success" id="formSuccess">
+              <i data-lucide="check-circle" width="32" height="32"></i>
+              <p style="font-weight:600; margin-top: 0.5rem;">Dziękujemy!</p>
+              <p style="color: var(--color-text-muted); font-size: var(--text-sm); font-weight:300;">Odezwiemy się wkrótce. Możesz też zadzwonić pod <a href="tel:+48713089308" style="color: var(--color-primary); font-weight:500;">71 308 93 08</a>.</p>
+            </div>
+          </div>
+
+          <!-- Info + Map -->
+          <div class="contact-info reveal">
+            <div class="contact-info-list">
+              <div class="contact-info-item">
+                <i data-lucide="map-pin" width="20" height="20"></i>
+                <div>
+                  <span class="contact-info-label">Adres</span>
+                  <a href="https://maps.google.com/?q=Sułowska+35,+Wrocław" target="_blank" rel="noopener noreferrer" class="contact-info-value">
+                    ul. Sułowska 35, 51-180 Wrocław<br>(dzielnica Psie Pole)
+                  </a>
+                </div>
+              </div>
+              <div class="contact-info-item">
+                <i data-lucide="phone" width="20" height="20"></i>
+                <div>
+                  <span class="contact-info-label">Telefon</span>
+                  <a href="tel:+48713089308" class="contact-info-value">71 308 93 08</a>
+                </div>
+              </div>
+              <div class="contact-info-item">
+                <i data-lucide="clock" width="20" height="20"></i>
+                <div>
+                  <span class="contact-info-label">Godziny otwarcia</span>
+                  <span class="contact-info-value">
+                    Pn – Pt: 08:00 – 17:00<br>
+                    Sob: 08:00 – 14:00<br>
+                    Nd: zamknięte
+                  </span>
+                </div>
+              </div>
+              <div class="contact-info-item">
+                <i data-lucide="credit-card" width="20" height="20"></i>
+                <div>
+                  <span class="contact-info-label">Płatności</span>
+                  <span class="contact-info-value">Gotówka, przelew bankowy</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="map-container">
+              <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2502.5!2d17.0723!3d51.1554!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x470fc21c1c0a3e6d%3A0x0!2zU3XFgm93c2thIDM1LCBXcm9jxYJhdw!5e0!3m2!1spl!2spl!4v1"
+                allowfullscreen=""
+                loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade"
+                title="Mapa lokalizacji Auto Futura — ul. Sułowska 35, Wrocław"
+              ></iframe>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ═══ FOOTER ═══ -->
+  <footer class="footer" role="contentinfo">
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <!-- Logo placeholder (footer) — do zastąpienia docelowym plikiem graficznym klienta -->
+          <div class="logo-placeholder" aria-label="Auto Futura">
+            <span class="logo-text">AUTO<span class="logo-accent">FUTURA</span></span>
+          </div>
+          <p class="footer-tagline">Kompleksowy serwis samochodowy we Wrocławiu od ponad 25 lat.</p>
+        </div>
+
+        <div>
+          <h3 class="footer-heading">USŁUGI</h3>
+          <ul class="footer-links">
+            <li><a href="#uslugi">Blacharstwo</a></li>
+            <li><a href="#uslugi">Lakiernictwo</a></li>
+            <li><a href="#uslugi">Mechanika</a></li>
+            <li><a href="#uslugi">Serwis opon</a></li>
+            <li><a href="#uslugi">Klimatyzacja</a></li>
+            <li><a href="#uslugi">Instalacje LPG</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h3 class="footer-heading">KONTAKT</h3>
+          <ul class="footer-links">
+            <li><a href="tel:+48713089308">71 308 93 08</a></li>
+            <li><a href="https://maps.google.com/?q=Sułowska+35,+Wrocław" target="_blank" rel="noopener noreferrer">ul. Sułowska 35, Wrocław</a></li>
+            <li><a href="https://www.facebook.com/serwisfutura" target="_blank" rel="noopener noreferrer">Facebook</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h3 class="footer-heading">GODZINY</h3>
+          <ul class="footer-links">
+            <li><span>Pn – Pt: 08:00 – 17:00</span></li>
+            <li><span>Sob: 08:00 – 14:00</span></li>
+            <li><span>Nd: zamknięte</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div>
+          <span>© 2025 Auto Futura Sp. z o.o. · ul. Sułowska 35, Wrocław</span>
+          <span style="margin-left: var(--space-sm);">
+            <a href="#" style="color: inherit; text-decoration: underline;">Polityka cookies</a>
+          </span>
+        </div>
+        <div class="footer-social">
+          <a href="https://www.facebook.com/serwisfutura" target="_blank" rel="noopener noreferrer" aria-label="Facebook Auto Futura">
+            <i data-lucide="facebook" width="18" height="18"></i>
+            <span>serwisfutura</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ═══ JAVASCRIPT ═══ -->
+  <script>
+    (function() {
+      'use strict';
+
+      // ── Initialize Lucide icons ──
+      lucide.createIcons();
+
+      // ── Theme toggle ──
+      const html = document.documentElement;
+      const themeToggle = document.querySelector('.theme-toggle');
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
+
+      function setTheme(theme) {
+        html.setAttribute('data-theme', theme);
+      }
+
+      // Initialize from system preference
+      setTheme(prefersDark.matches ? 'dark' : 'light');
+
+      prefersDark.addEventListener('change', function(e) {
+        setTheme(e.matches ? 'dark' : 'light');
+      });
+
+      themeToggle.addEventListener('click', function() {
+        const current = html.getAttribute('data-theme');
+        setTheme(current === 'dark' ? 'light' : 'dark');
+        // Re-render icons so sun/moon swap
+        lucide.createIcons();
+      });
+
+      // ── Sticky header scroll effect ──
+      const header = document.querySelector('.header');
+      let lastScroll = 0;
+
+      function handleHeaderScroll() {
+        const scrollY = window.scrollY;
+        if (scrollY > 60) {
+          header.classList.add('scrolled');
+        } else {
+          header.classList.remove('scrolled');
+        }
+        lastScroll = scrollY;
+      }
+
+      window.addEventListener('scroll', handleHeaderScroll, { passive: true });
+
+      // ── Mobile hamburger menu ──
+      const hamburger = document.querySelector('.hamburger');
+      const drawer = document.querySelector('.mobile-drawer');
+      const overlay = document.querySelector('.drawer-overlay');
+      const drawerLinks = drawer.querySelectorAll('a');
+
+      function toggleMenu(open) {
+        const isOpen = typeof open === 'boolean' ? open : !drawer.classList.contains('open');
+        drawer.classList.toggle('open', isOpen);
+        overlay.classList.toggle('visible', isOpen);
+        hamburger.classList.toggle('active', isOpen);
+        hamburger.setAttribute('aria-expanded', isOpen);
+        document.body.style.overflow = isOpen ? 'hidden' : '';
+      }
+
+      hamburger.addEventListener('click', function() { toggleMenu(); });
+      overlay.addEventListener('click', function() { toggleMenu(false); });
+      drawerLinks.forEach(function(link) {
+        link.addEventListener('click', function() { toggleMenu(false); });
+      });
+
+      // ── Scroll reveal (IntersectionObserver) ──
+      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      if (!prefersReducedMotion) {
+        const revealElements = document.querySelectorAll('.reveal');
+        const revealObserver = new IntersectionObserver(function(entries) {
+          entries.forEach(function(entry) {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('visible');
+              revealObserver.unobserve(entry.target);
+            }
+          });
+        }, {
+          threshold: 0.1,
+          rootMargin: '0px 0px -40px 0px'
+        });
+
+        revealElements.forEach(function(el) {
+          revealObserver.observe(el);
+        });
+      } else {
+        // If reduced motion, just show everything
+        document.querySelectorAll('.reveal').forEach(function(el) {
+          el.classList.add('visible');
+        });
+      }
+
+      // ── Animated counters ──
+      const statNumbers = document.querySelectorAll('.stat-number[data-count]');
+
+      function animateCounter(el) {
+        const target = parseInt(el.getAttribute('data-count'), 10);
+        const suffix = el.getAttribute('data-suffix') || '';
+        const duration = 1500;
+        const start = performance.now();
+
+        function update(now) {
+          const elapsed = now - start;
+          const progress = Math.min(elapsed / duration, 1);
+          // Ease out
+          const eased = 1 - Math.pow(1 - progress, 3);
+          const current = Math.round(eased * target);
+          el.textContent = current + suffix;
+          if (progress < 1) {
+            requestAnimationFrame(update);
+          }
+        }
+
+        requestAnimationFrame(update);
+      }
+
+      if (!prefersReducedMotion && statNumbers.length > 0) {
+        const counterObserver = new IntersectionObserver(function(entries) {
+          entries.forEach(function(entry) {
+            if (entry.isIntersecting) {
+              animateCounter(entry.target);
+              counterObserver.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.5 });
+
+        statNumbers.forEach(function(el) {
+          counterObserver.observe(el);
+        });
+      } else {
+        // Show final values immediately
+        statNumbers.forEach(function(el) {
+          el.textContent = el.getAttribute('data-count') + (el.getAttribute('data-suffix') || '');
+        });
+      }
+
+      // ── Contact form ──
+      const form = document.getElementById('contactForm');
+      const formSuccess = document.getElementById('formSuccess');
+
+      form.addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        // Basic validation
+        const name = form.querySelector('#name');
+        const phone = form.querySelector('#phone');
+
+        if (!name.value.trim() || !phone.value.trim()) {
+          // Highlight empty required fields
+          if (!name.value.trim()) name.style.borderColor = 'var(--color-primary)';
+          if (!phone.value.trim()) phone.style.borderColor = 'var(--color-primary)';
+          return;
+        }
+
+        // Show success, hide form
+        form.style.display = 'none';
+        formSuccess.classList.add('visible');
+        // Re-render new Lucide icons in success message
+        lucide.createIcons();
+      });
+
+      // Reset border color on input
+      form.querySelectorAll('.form-input, .form-textarea').forEach(function(input) {
+        input.addEventListener('input', function() {
+          this.style.borderColor = '';
+        });
+      });
+
+    })();
+  </script>
+</body>
+</html>
