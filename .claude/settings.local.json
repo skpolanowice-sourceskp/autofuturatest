@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(ffmpeg -i \"/c/Users/User/Documents/GitHub/autofuturatest/4822548-uhd_3840_2160_30fps.mp4\" -vf \"scale=1280:-2,hue=s=0\" -c:v libx264 -crf 26 -preset medium -an -movflags +faststart \"/c/Users/User/Documents/GitHub/autofuturatest/service-lakiernictwo.mp4\" -y)",
+      "Bash(ffmpeg -i \"/c/Users/User/Documents/GitHub/autofuturatest/4489795-uhd_2160_4096_25fps.mp4\" -vf \"scale=1280:-2,hue=s=0\" -c:v libx264 -crf 26 -preset medium -an -movflags +faststart \"/c/Users/User/Documents/GitHub/autofuturatest/service-blacharstwo.mp4\" -y)",
+      "Bash(ffmpeg -i \"/c/Users/User/Documents/GitHub/autofuturatest/4489795-uhd_2160_4096_25fps.mp4\" -vf \"scale=854:-2,hue=s=0\" -c:v libx264 -crf 30 -preset medium -an -movflags +faststart \"/c/Users/User/Documents/GitHub/autofuturatest/service-blacharstwo.mp4\" -y)"
+    ]
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(ffmpeg -i \"/c/Users/User/Documents/GitHub/autofuturatest/8986484-uhd_3840_2160_30fps.mp4\" -vf \"scale=854:-2,hue=s=0\" -c:v libx264 -crf 30 -preset medium -an -movflags +faststart \"/c/Users/User/Documents/GitHub/autofuturatest/service-mechanika.mp4\" -y)"
+    ]
+  }
+}

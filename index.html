@@ -487,14 +487,14 @@
       z-index: 0;
     }
 
-    /* Placeholder background — zastąp docelowym zdjęciem warsztatu */
-    .hero-bg-image {
+    .hero-bg-video {
       position: absolute;
       inset: 0;
-      background:
-        linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 40%, #1e1e1e 100%);
-      /* ↑ Zastąp powyższe tło docelowym zdjęciem:
-         background: url('img/hero-workshop.jpg') center/cover no-repeat; */
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: blur(3px);
+      transform: scale(1.04); /* kompensuje białe krawędzie blura */
     }
 
     .hero-bg-overlay {
@@ -584,6 +584,29 @@
     .services-grid {
       display: grid;
       gap: var(--space-sm);
+      grid-template-columns: 1fr;
+    }
+
+    @media (min-width: 640px) {
+      .services-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .service-card-featured {
+        grid-column: 1 / -1;
+        min-height: 280px;
+      }
+    }
+
+    @media (min-width: 960px) {
+      .services-grid {
+        grid-template-columns: repeat(3, 1fr);
+        align-items: stretch;
+      }
+      .service-card-featured {
+        grid-column: 1;
+        grid-row: 1 / 3;
+        min-height: unset;
+      }
     }
 
     /* Featured card (Blacharstwo) */
@@ -591,14 +614,21 @@
       position: relative;
       border-radius: var(--radius-md);
       overflow: hidden;
-      min-height: 280px;
+      min-height: 260px;
       display: flex;
       align-items: flex-end;
       padding: var(--space-lg);
-      /* Placeholder — zastąp zdjęciem blacharni */
-      background: linear-gradient(135deg, #2a2a2a, #1a1a1a);
-      /* background: url('img/service-blacharstwo.jpg') center/cover no-repeat; */
+      background: #111111;
       transition: transform var(--duration-normal) var(--ease-out), box-shadow var(--duration-normal) ease;
+    }
+
+    .service-card-featured-video {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: 0;
     }
 
     .service-card-featured::before {
@@ -640,11 +670,6 @@
     }
 
     /* Regular service cards */
-    .services-regular {
-      display: grid;
-      gap: var(--space-sm);
-    }
-
     .service-card {
       background-color: var(--color-surface);
       border: 1px solid var(--color-border-subtle);
@@ -666,6 +691,7 @@
       transform: scaleX(0);
       transform-origin: left;
       transition: transform var(--duration-normal) var(--ease-out);
+      z-index: 3;
     }
 
     .service-card:hover {
@@ -675,6 +701,49 @@
 
     .service-card:hover::after {
       transform: scaleX(1);
+    }
+
+    /* Service card with video background */
+    .service-card--video {
+      background: #111111;
+    }
+
+    .service-card-video {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: 0;
+    }
+
+    .service-card-video-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, rgba(0,0,0,0.72) 0%, rgba(0,0,0,0.15) 100%);
+      z-index: 1;
+    }
+
+    .service-card-video-overlay::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,0.45);
+    }
+
+    .service-card--video > .service-icon,
+    .service-card--video > .service-name,
+    .service-card--video > .service-desc {
+      position: relative;
+      z-index: 2;
+    }
+
+    .service-card--video .service-name {
+      color: #ffffff;
+    }
+
+    .service-card--video .service-desc {
+      color: rgba(255,255,255,0.72);
     }
 
     .service-icon {
@@ -701,25 +770,6 @@
       line-height: 1.6;
     }
 
-    @media (min-width: 640px) {
-      .services-regular {
-        grid-template-columns: repeat(2, 1fr);
-      }
-    }
-
-    @media (min-width: 960px) {
-      .services-grid {
-        grid-template-columns: 1fr 1fr;
-        align-items: start;
-      }
-      .service-card-featured {
-        grid-column: 1 / 2;
-        min-height: 460px;
-      }
-      .services-regular {
-        grid-template-columns: repeat(2, 1fr);
-      }
-    }
 
     /* ══════════════════════════════════
        BLACHARNIA & LAKIERNIA
@@ -1313,23 +1363,32 @@
     .hero-scroll-indicator {
       position: absolute;
       bottom: var(--space-xl);
-      left: var(--space-md);
+      left: 50%;
+      transform: translateX(-50%);
       z-index: 1;
       display: none;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
     }
 
     @media (min-width: 768px) {
       .hero-scroll-indicator {
         display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 8px;
       }
+    }
+
+    .hero-scroll-label {
+      font-family: var(--font-body);
+      font-size: 0.625rem;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      color: rgba(255,255,255,0.45);
     }
 
     .hero-scroll-line {
       width: 1px;
-      height: 56px;
+      height: 48px;
       background: linear-gradient(to bottom, rgba(255,255,255,0.45), transparent);
       animation: scrollPulse 2.5s ease-in-out infinite;
     }
@@ -1403,8 +1462,9 @@
     <!-- ═══ HERO ═══ -->
     <section class="hero" id="start">
       <div class="hero-bg">
-        <!-- Hero background — zastąp docelowym zdjęciem wnętrza warsztatu -->
-        <div class="hero-bg-image" role="img" aria-label="Wnętrze nowoczesnego warsztatu samochodowego"></div>
+        <video class="hero-bg-video" autoplay muted loop playsinline>
+          <source src="hero-bg.mp4" type="video/mp4">
+        </video>
         <div class="hero-bg-overlay"></div>
         <div class="hero-bg-pattern"></div>
       </div>
@@ -1419,6 +1479,7 @@
       </div>
 
       <div class="hero-scroll-indicator" aria-hidden="true">
+        <span class="hero-scroll-label">SCROLL</span>
         <div class="hero-scroll-line"></div>
       </div>
 
@@ -1431,9 +1492,12 @@
         <h2 class="section-label reveal">NASZE USŁUGI</h2>
         <p class="section-subtitle reveal">Oferujemy pełen zakres usług serwisowych — od napraw blacharsko-lakierniczych po montaż instalacji LPG.</p>
 
-        <div class="services-grid">
+        <div class="services-grid stagger-children">
           <!-- Featured card: Blacharstwo -->
           <div class="service-card-featured reveal" role="article">
+            <video class="service-card-featured-video" autoplay muted loop playsinline>
+              <source src="service-blacharstwo.mp4" type="video/mp4">
+            </video>
             <div class="service-card-inner">
               <div class="service-icon">
                 <i data-lucide="shield" width="28" height="28"></i>
@@ -1443,55 +1507,76 @@
             </div>
           </div>
 
-          <!-- Regular cards -->
-          <div class="services-regular stagger-children">
-            <div class="service-card reveal" role="article">
-              <div class="service-icon">
-                <i data-lucide="paintbrush" width="24" height="24"></i>
-              </div>
-              <h3 class="service-name">LAKIERNICTWO</h3>
-              <p class="service-desc">Lakierowanie powypadkowe i kosmetyczne w komorze lakierniczej. Precyzyjne dopasowanie koloru komputerowe.</p>
+          <div class="service-card service-card--video reveal" role="article">
+            <video class="service-card-video" autoplay muted loop playsinline>
+              <source src="service-lakiernictwo.mp4" type="video/mp4">
+            </video>
+            <div class="service-card-video-overlay"></div>
+            <div class="service-icon">
+              <i data-lucide="paintbrush" width="24" height="24"></i>
             </div>
+            <h3 class="service-name">LAKIERNICTWO</h3>
+            <p class="service-desc">Lakierowanie powypadkowe i kosmetyczne w komorze lakierniczej. Precyzyjne dopasowanie koloru komputerowe.</p>
+          </div>
 
-            <div class="service-card reveal" role="article">
-              <div class="service-icon">
-                <i data-lucide="wrench" width="24" height="24"></i>
-              </div>
-              <h3 class="service-name">MECHANIKA</h3>
-              <p class="service-desc">Przeglądy okresowe, diagnostyka, naprawy silników, układów hamulcowych i zawieszenia.</p>
+          <div class="service-card service-card--video reveal" role="article">
+            <video class="service-card-video" autoplay muted loop playsinline>
+              <source src="service-mechanika.mp4" type="video/mp4">
+            </video>
+            <div class="service-card-video-overlay"></div>
+            <div class="service-icon">
+              <i data-lucide="wrench" width="24" height="24"></i>
             </div>
+            <h3 class="service-name">MECHANIKA</h3>
+            <p class="service-desc">Przeglądy okresowe, diagnostyka, naprawy silników, układów hamulcowych i zawieszenia.</p>
+          </div>
 
-            <div class="service-card reveal" role="article">
-              <div class="service-icon">
-                <i data-lucide="circle-dot" width="24" height="24"></i>
-              </div>
-              <h3 class="service-name">SERWIS OPON</h3>
-              <p class="service-desc">Wymiana, wyważanie i przechowywanie opon sezonowych. Wulkanizacja i naprawa uszkodzeń.</p>
+          <div class="service-card service-card--video reveal" role="article">
+            <video class="service-card-video" autoplay muted loop playsinline>
+              <source src="service-opony.mp4" type="video/mp4">
+            </video>
+            <div class="service-card-video-overlay"></div>
+            <div class="service-icon">
+              <i data-lucide="circle-dot" width="24" height="24"></i>
             </div>
+            <h3 class="service-name">SERWIS OPON</h3>
+            <p class="service-desc">Wymiana, wyważanie i przechowywanie opon sezonowych. Wulkanizacja i naprawa uszkodzeń.</p>
+          </div>
 
-            <div class="service-card reveal" role="article">
-              <div class="service-icon">
-                <i data-lucide="wind" width="24" height="24"></i>
-              </div>
-              <h3 class="service-name">KLIMATYZACJA</h3>
-              <p class="service-desc">Serwis i odgrzybianie klimatyzacji samochodowej. Uzupełnianie czynnika, kontrola szczelności.</p>
+          <div class="service-card service-card--video reveal" role="article">
+            <video class="service-card-video" autoplay muted loop playsinline>
+              <source src="service-klimatyzacja.mp4" type="video/mp4">
+            </video>
+            <div class="service-card-video-overlay"></div>
+            <div class="service-icon">
+              <i data-lucide="wind" width="24" height="24"></i>
             </div>
+            <h3 class="service-name">KLIMATYZACJA</h3>
+            <p class="service-desc">Serwis i odgrzybianie klimatyzacji samochodowej. Uzupełnianie czynnika, kontrola szczelności.</p>
+          </div>
 
-            <div class="service-card reveal" role="article">
-              <div class="service-icon">
-                <i data-lucide="fuel" width="24" height="24"></i>
-              </div>
-              <h3 class="service-name">INSTALACJE LPG</h3>
-              <p class="service-desc">Montaż, diagnostyka i przeglądy instalacji gazowych. Serwisujemy wszystkie popularne systemy LPG.</p>
+          <div class="service-card service-card--video reveal" role="article">
+            <video class="service-card-video" autoplay muted loop playsinline>
+              <source src="service-lpg.mp4" type="video/mp4">
+            </video>
+            <div class="service-card-video-overlay"></div>
+            <div class="service-icon">
+              <i data-lucide="fuel" width="24" height="24"></i>
             </div>
+            <h3 class="service-name">INSTALACJE LPG</h3>
+            <p class="service-desc">Montaż, diagnostyka i przeglądy instalacji gazowych. Serwisujemy wszystkie popularne systemy LPG.</p>
+          </div>
 
-            <div class="service-card reveal" role="article">
-              <div class="service-icon">
-                <i data-lucide="file-check" width="24" height="24"></i>
-              </div>
-              <h3 class="service-name">LIKWIDACJA SZKÓD</h3>
-              <p class="service-desc">Kompleksowa obsługa ubezpieczycieli. Kosztorysy, naprawy bezgotówkowe z OC sprawcy.</p>
+          <div class="service-card service-card--video reveal" role="article">
+            <video class="service-card-video" autoplay muted loop playsinline>
+              <source src="service-likwidacja.mp4" type="video/mp4">
+            </video>
+            <div class="service-card-video-overlay"></div>
+            <div class="service-icon">
+              <i data-lucide="file-check" width="24" height="24"></i>
             </div>
+            <h3 class="service-name">LIKWIDACJA SZKÓD</h3>
+            <p class="service-desc">Kompleksowa obsługa ubezpieczycieli. Kosztorysy, naprawy bezgotówkowe z OC sprawcy.</p>
           </div>
         </div>
       </div>
