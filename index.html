@@ -1873,12 +1873,8 @@
         html.setAttribute('data-theme', theme);
       }
 
-      // Initialize from system preference
-      setTheme(prefersDark.matches ? 'dark' : 'light');
-
-      prefersDark.addEventListener('change', function(e) {
-        setTheme(e.matches ? 'dark' : 'light');
-      });
+      // Default: light mode
+      setTheme('light');
 
       themeToggle.addEventListener('click', function() {
         const current = html.getAttribute('data-theme');
