@@ -173,6 +173,19 @@
       letter-spacing: 0.04em;
       line-height: 1.1;
       margin-bottom: var(--space-lg);
+      position: relative;
+      padding-bottom: var(--space-sm);
+    }
+
+    .section-label::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 44px;
+      height: 3px;
+      background-color: var(--color-primary);
+      border-radius: 2px;
     }
 
     .section-subtitle {
@@ -207,6 +220,13 @@
 
     .btn-primary:hover {
       background-color: var(--color-primary-hover);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(200, 18, 26, 0.3);
+    }
+
+    .btn-primary:active {
+      transform: translateY(0);
+      box-shadow: none;
     }
 
     .btn-ghost {
@@ -217,6 +237,11 @@
 
     .btn-ghost:hover {
       border-color: var(--color-text);
+      transform: translateY(-2px);
+    }
+
+    .btn-ghost:active {
+      transform: translateY(0);
     }
 
     /* ══════════════════════════════════
@@ -282,9 +307,26 @@
       position: relative;
     }
 
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      right: 100%;
+      height: 1.5px;
+      background-color: var(--color-primary);
+      transition: right var(--duration-fast) ease;
+    }
+
     .nav-link:hover,
-    .nav-link:focus-visible {
+    .nav-link:focus-visible,
+    .nav-link.active {
       color: var(--color-text);
+    }
+
+    .nav-link:hover::after,
+    .nav-link.active::after {
+      right: 0;
     }
 
     .header-actions {
@@ -485,6 +527,7 @@
       letter-spacing: 0.03em;
       color: #ffffff;
       margin-bottom: var(--space-md);
+      text-shadow: 0 2px 30px rgba(0,0,0,0.4);
     }
 
     .hero-subtitle {
@@ -666,15 +709,15 @@
 
     @media (min-width: 960px) {
       .services-grid {
-        grid-template-columns: 2fr 1fr;
+        grid-template-columns: 1fr 1fr;
+        align-items: start;
       }
       .service-card-featured {
         grid-column: 1 / 2;
-        grid-row: 1 / 3;
-        min-height: 400px;
+        min-height: 460px;
       }
       .services-regular {
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: repeat(2, 1fr);
       }
     }
 
@@ -763,9 +806,15 @@
       border-radius: var(--radius-lg);
       overflow: hidden;
       aspect-ratio: 4 / 3;
-      /* Placeholder — zastąp docelowym zdjęciem lakierni */
-      background: linear-gradient(135deg, #2a2a2a, #1e1e1e);
-      /* background: url('img/bodyshop.jpg') center/cover no-repeat; */
+      background: #1a1a1a;
+    }
+
+    .bodyshop-video {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
     }
 
     .bodyshop-image-overlay {
@@ -843,18 +892,30 @@
     .stats-row {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
-      gap: var(--space-md);
+      gap: var(--space-lg);
       margin-top: var(--space-xl);
       max-width: 720px;
     }
 
     .stat-item {
       text-align: left;
+      position: relative;
+      padding-top: 20px;
+    }
+
+    .stat-item::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 28px;
+      height: 2px;
+      background-color: var(--color-primary);
     }
 
     .stat-number {
       font-family: var(--font-display);
-      font-size: var(--text-3xl);
+      font-size: var(--text-4xl);
       line-height: 1;
       color: var(--color-text);
       margin-bottom: 4px;
@@ -921,6 +982,22 @@
       border: 1px solid var(--color-border-subtle);
       border-radius: var(--radius-md);
       text-align: left;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .testimonial::before {
+      content: '\201C';
+      position: absolute;
+      top: -10px;
+      left: 10px;
+      font-family: var(--font-display);
+      font-size: 90px;
+      line-height: 1;
+      color: var(--color-primary);
+      opacity: 0.12;
+      pointer-events: none;
+      user-select: none;
     }
 
     .testimonial-quote {
@@ -951,80 +1028,22 @@
       background-color: var(--color-bg);
     }
 
-    .contact-grid {
-      display: grid;
-      gap: var(--space-xl);
-    }
-
-    .contact-form-wrapper {
-      text-align: left;
-    }
-
-    .form-group {
-      margin-bottom: var(--space-md);
-    }
-
-    .form-label {
-      display: block;
-      font-size: var(--text-sm);
-      font-weight: 500;
-      margin-bottom: 6px;
-    }
-
-    .form-input,
-    .form-textarea {
-      width: 100%;
-      padding: 0.75rem 1rem;
-      font-family: var(--font-body);
-      font-size: var(--text-base);
-      font-weight: 400;
-      color: var(--color-text);
-      background-color: var(--color-surface);
-      border: 1px solid var(--color-border);
-      border-radius: var(--radius-sm);
-      transition: border-color var(--duration-fast) ease;
-    }
-
-    .form-input:focus,
-    .form-textarea:focus {
-      outline: none;
-      border-color: var(--color-primary);
-    }
-
-    .form-textarea {
-      resize: vertical;
-      min-height: 100px;
-    }
-
-    .form-success {
-      display: none;
-      padding: var(--space-md);
-      background-color: var(--color-surface);
-      border: 1px solid var(--color-border-subtle);
-      border-radius: var(--radius-md);
-      text-align: center;
-    }
-
-    .form-success.visible {
-      display: block;
-      animation: fadeIn var(--duration-normal) var(--ease-out);
-    }
-
-    .form-success i {
-      color: #22c55e;
-      margin-bottom: var(--space-xs);
-    }
-
     /* Contact info */
     .contact-info {
       text-align: left;
     }
 
     .contact-info-list {
-      display: flex;
-      flex-direction: column;
-      gap: var(--space-md);
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--space-lg) var(--space-xl);
       margin-bottom: var(--space-lg);
+    }
+
+    @media (max-width: 639px) {
+      .contact-info-list {
+        grid-template-columns: 1fr;
+      }
     }
 
     .contact-info-item {
@@ -1059,19 +1078,19 @@
       border-radius: var(--radius-md);
       overflow: hidden;
       border: 1px solid var(--color-border-subtle);
-      aspect-ratio: 16 / 10;
+      aspect-ratio: 21 / 9;
+    }
+
+    @media (max-width: 639px) {
+      .map-container {
+        aspect-ratio: 4 / 3;
+      }
     }
 
     .map-container iframe {
       width: 100%;
       height: 100%;
       border: 0;
-    }
-
-    @media (min-width: 768px) {
-      .contact-grid {
-        grid-template-columns: 1fr 1fr;
-      }
     }
 
     /* ══════════════════════════════════
@@ -1211,6 +1230,116 @@
     }
 
     /* ══════════════════════════════════
+       FAB PHONE (mobile)
+    ══════════════════════════════════ */
+    .fab-phone {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      width: 56px;
+      height: 56px;
+      background-color: var(--color-primary);
+      color: #ffffff;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 20px rgba(200, 18, 26, 0.45);
+      z-index: 90;
+      transition: transform var(--duration-fast) var(--ease-out),
+                  box-shadow var(--duration-fast) ease;
+    }
+
+    .fab-phone:hover {
+      transform: scale(1.08);
+      box-shadow: 0 6px 28px rgba(200, 18, 26, 0.55);
+    }
+
+    .fab-phone i {
+      width: 22px;
+      height: 22px;
+    }
+
+    @media (min-width: 768px) {
+      .fab-phone { display: none; }
+    }
+
+    /* ══════════════════════════════════
+       SCROLL-TO-TOP
+    ══════════════════════════════════ */
+    .scroll-top {
+      position: fixed;
+      bottom: 24px;
+      right: 88px;
+      width: 44px;
+      height: 44px;
+      background-color: var(--color-surface);
+      color: var(--color-text-muted);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity var(--duration-fast) ease,
+                  transform var(--duration-fast) ease,
+                  color var(--duration-fast) ease;
+      z-index: 89;
+      transform: translateY(8px);
+    }
+
+    .scroll-top.visible {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateY(0);
+    }
+
+    .scroll-top:hover {
+      color: var(--color-text);
+      background-color: var(--color-surface-raised);
+    }
+
+    @media (min-width: 768px) {
+      .scroll-top {
+        right: 24px;
+        bottom: 80px;
+      }
+    }
+
+    /* ══════════════════════════════════
+       HERO SCROLL INDICATOR
+    ══════════════════════════════════ */
+    .hero-scroll-indicator {
+      position: absolute;
+      bottom: var(--space-xl);
+      left: var(--space-md);
+      z-index: 1;
+      display: none;
+    }
+
+    @media (min-width: 768px) {
+      .hero-scroll-indicator {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+    }
+
+    .hero-scroll-line {
+      width: 1px;
+      height: 56px;
+      background: linear-gradient(to bottom, rgba(255,255,255,0.45), transparent);
+      animation: scrollPulse 2.5s ease-in-out infinite;
+    }
+
+    @keyframes scrollPulse {
+      0%, 100% { opacity: 0.4; transform: translateY(0); }
+      50% { opacity: 1; transform: translateY(6px); }
+    }
+
+    /* ══════════════════════════════════
        UTILITIES
     ══════════════════════════════════ */
     .sr-only {
@@ -1287,6 +1416,10 @@
           <a href="#kontakt" class="btn btn-primary">Umów wizytę</a>
           <a href="#uslugi" class="btn btn-ghost">Nasze usługi</a>
         </div>
+      </div>
+
+      <div class="hero-scroll-indicator" aria-hidden="true">
+        <div class="hero-scroll-line"></div>
       </div>
 
       <div class="hero-badge">Wrocław · Psie Pole · Sułowska 35</div>
@@ -1398,9 +1531,10 @@
             </div>
           </div>
 
-          <div class="bodyshop-image reveal" role="img" aria-label="Samochód po profesjonalnej naprawie blacharsko-lakierniczej">
-            <!-- Placeholder — zastąp docelowym zdjęciem:
-                 <img src="img/bodyshop.jpg" alt="Samochód po naprawie blacharsko-lakierniczej" loading="lazy" width="600" height="450"> -->
+          <div class="bodyshop-image reveal">
+            <video class="bodyshop-video" autoplay muted loop playsinline>
+              <source src="bodyshop.mp4" type="video/mp4">
+            </video>
             <div class="bodyshop-image-overlay"></div>
           </div>
         </div>
@@ -1512,86 +1646,54 @@
     <section class="section contact" id="kontakt">
       <div class="container">
         <h2 class="section-label reveal">KONTAKT</h2>
-        <p class="section-subtitle reveal">Umów wizytę telefonicznie lub zostaw wiadomość — odezwiemy się najszybciej jak to możliwe.</p>
+        <p class="section-subtitle reveal">Zadzwoń lub odwiedź nasz warsztat — jesteśmy do Twojej dyspozycji od poniedziałku do soboty.</p>
 
-        <div class="contact-grid">
-          <!-- Form -->
-          <div class="contact-form-wrapper reveal">
-            <form id="contactForm" novalidate>
-              <div class="form-group">
-                <label class="form-label" for="name">Imię</label>
-                <input class="form-input" type="text" id="name" name="name" placeholder="Jan Kowalski" required autocomplete="name">
+        <div class="contact-info reveal">
+          <div class="contact-info-list">
+            <div class="contact-info-item">
+              <i data-lucide="map-pin" width="20" height="20"></i>
+              <div>
+                <span class="contact-info-label">Adres</span>
+                <a href="https://maps.google.com/?q=Sułowska+35,+Wrocław" target="_blank" rel="noopener noreferrer" class="contact-info-value">
+                  ul. Sułowska 35, 51-180 Wrocław<br>(dzielnica Psie Pole)
+                </a>
               </div>
-              <div class="form-group">
-                <label class="form-label" for="phone">Telefon</label>
-                <input class="form-input" type="tel" id="phone" name="phone" placeholder="600 000 000" required autocomplete="tel">
+            </div>
+            <div class="contact-info-item">
+              <i data-lucide="phone" width="20" height="20"></i>
+              <div>
+                <span class="contact-info-label">Telefon</span>
+                <a href="tel:+48713089308" class="contact-info-value">71 308 93 08</a>
               </div>
-              <div class="form-group">
-                <label class="form-label" for="message">Opis problemu</label>
-                <textarea class="form-textarea" id="message" name="message" placeholder="Opisz krótko, co się stało z samochodem…" rows="4"></textarea>
+            </div>
+            <div class="contact-info-item">
+              <i data-lucide="clock" width="20" height="20"></i>
+              <div>
+                <span class="contact-info-label">Godziny otwarcia</span>
+                <span class="contact-info-value">
+                  Pn – Pt: 08:00 – 17:00<br>
+                  Sob: 08:00 – 14:00<br>
+                  Nd: zamknięte
+                </span>
               </div>
-              <div class="form-group">
-                <label class="form-label" for="date">Preferowany termin</label>
-                <input class="form-input" type="date" id="date" name="date">
+            </div>
+            <div class="contact-info-item">
+              <i data-lucide="credit-card" width="20" height="20"></i>
+              <div>
+                <span class="contact-info-label">Płatności</span>
+                <span class="contact-info-value">Gotówka, przelew bankowy</span>
               </div>
-              <button type="submit" class="btn btn-primary" style="width:100%">Wyślij wiadomość</button>
-            </form>
-
-            <div class="form-success" id="formSuccess">
-              <i data-lucide="check-circle" width="32" height="32"></i>
-              <p style="font-weight:600; margin-top: 0.5rem;">Dziękujemy!</p>
-              <p style="color: var(--color-text-muted); font-size: var(--text-sm); font-weight:300;">Odezwiemy się wkrótce. Możesz też zadzwonić pod <a href="tel:+48713089308" style="color: var(--color-primary); font-weight:500;">71 308 93 08</a>.</p>
             </div>
           </div>
 
-          <!-- Info + Map -->
-          <div class="contact-info reveal">
-            <div class="contact-info-list">
-              <div class="contact-info-item">
-                <i data-lucide="map-pin" width="20" height="20"></i>
-                <div>
-                  <span class="contact-info-label">Adres</span>
-                  <a href="https://maps.google.com/?q=Sułowska+35,+Wrocław" target="_blank" rel="noopener noreferrer" class="contact-info-value">
-                    ul. Sułowska 35, 51-180 Wrocław<br>(dzielnica Psie Pole)
-                  </a>
-                </div>
-              </div>
-              <div class="contact-info-item">
-                <i data-lucide="phone" width="20" height="20"></i>
-                <div>
-                  <span class="contact-info-label">Telefon</span>
-                  <a href="tel:+48713089308" class="contact-info-value">71 308 93 08</a>
-                </div>
-              </div>
-              <div class="contact-info-item">
-                <i data-lucide="clock" width="20" height="20"></i>
-                <div>
-                  <span class="contact-info-label">Godziny otwarcia</span>
-                  <span class="contact-info-value">
-                    Pn – Pt: 08:00 – 17:00<br>
-                    Sob: 08:00 – 14:00<br>
-                    Nd: zamknięte
-                  </span>
-                </div>
-              </div>
-              <div class="contact-info-item">
-                <i data-lucide="credit-card" width="20" height="20"></i>
-                <div>
-                  <span class="contact-info-label">Płatności</span>
-                  <span class="contact-info-value">Gotówka, przelew bankowy</span>
-                </div>
-              </div>
-            </div>
-
-            <div class="map-container">
-              <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2502.5!2d17.0723!3d51.1554!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x470fc21c1c0a3e6d%3A0x0!2zU3XFgm93c2thIDM1LCBXcm9jxYJhdw!5e0!3m2!1spl!2spl!4v1"
-                allowfullscreen=""
-                loading="lazy"
-                referrerpolicy="no-referrer-when-downgrade"
-                title="Mapa lokalizacji Auto Futura — ul. Sułowska 35, Wrocław"
-              ></iframe>
-            </div>
+          <div class="map-container">
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2502.5!2d17.0723!3d51.1554!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x470fc21c1c0a3e6d%3A0x0!2zU3XFgm93c2thIDM1LCBXcm9jxYJhdw!5e0!3m2!1spl!2spl!4v1"
+              allowfullscreen=""
+              loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade"
+              title="Mapa lokalizacji Auto Futura — ul. Sułowska 35, Wrocław"
+            ></iframe>
           </div>
         </div>
       </div>
@@ -1657,6 +1759,15 @@
       </div>
     </div>
   </footer>
+
+  <!-- ═══ FLOATING ACTIONS ═══ -->
+  <a href="tel:+48713089308" class="fab-phone" aria-label="Zadzwoń do Auto Futura">
+    <i data-lucide="phone"></i>
+  </a>
+
+  <button class="scroll-top" id="scrollTop" aria-label="Wróć na górę strony">
+    <i data-lucide="chevron-up" width="20" height="20"></i>
+  </button>
 
   <!-- ═══ JAVASCRIPT ═══ -->
   <script>
@@ -1797,37 +1908,41 @@
         });
       }
 
-      // ── Contact form ──
-      const form = document.getElementById('contactForm');
-      const formSuccess = document.getElementById('formSuccess');
 
-      form.addEventListener('submit', function(e) {
-        e.preventDefault();
+      // ── Scroll-to-top ──
+      const scrollTopBtn = document.getElementById('scrollTop');
 
-        // Basic validation
-        const name = form.querySelector('#name');
-        const phone = form.querySelector('#phone');
+      window.addEventListener('scroll', function() {
+        scrollTopBtn.classList.toggle('visible', window.scrollY > 400);
+      }, { passive: true });
 
-        if (!name.value.trim() || !phone.value.trim()) {
-          // Highlight empty required fields
-          if (!name.value.trim()) name.style.borderColor = 'var(--color-primary)';
-          if (!phone.value.trim()) phone.style.borderColor = 'var(--color-primary)';
-          return;
-        }
-
-        // Show success, hide form
-        form.style.display = 'none';
-        formSuccess.classList.add('visible');
-        // Re-render new Lucide icons in success message
-        lucide.createIcons();
+      scrollTopBtn.addEventListener('click', function() {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
       });
 
-      // Reset border color on input
-      form.querySelectorAll('.form-input, .form-textarea').forEach(function(input) {
-        input.addEventListener('input', function() {
-          this.style.borderColor = '';
+      // ── Active nav highlighting ──
+      const allSections = document.querySelectorAll('section[id]');
+      const desktopNavLinks = document.querySelectorAll('.nav-desktop .nav-link');
+
+      if (allSections.length > 0 && desktopNavLinks.length > 0) {
+        const activeNavObserver = new IntersectionObserver(function(entries) {
+          entries.forEach(function(entry) {
+            if (entry.isIntersecting) {
+              const id = entry.target.getAttribute('id');
+              desktopNavLinks.forEach(function(link) {
+                link.classList.toggle('active', link.getAttribute('href') === '#' + id);
+              });
+            }
+          });
+        }, {
+          threshold: 0.3,
+          rootMargin: '-72px 0px -40% 0px'
         });
-      });
+
+        allSections.forEach(function(section) {
+          activeNavObserver.observe(section);
+        });
+      }
 
     })();
   </script>
